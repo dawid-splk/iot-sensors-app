@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    hikari.maximum-pool-size: 5
+  jpa:
+    hibernate.ddl-auto: validate
+    open-in-view: false
+  mvc.problemdetails.enabled: true
+server:
+  forward-headers-strategy: framework
+  error:
+    include-stacktrace: never
+    include-message: never
+app:
+  token-ttl-seconds: ${TOKEN_TTL_SECONDS:28800}
+  admin:
+    username: ${ADMIN_USERNAME}
+    password: ${ADMIN_PASSWORD}
