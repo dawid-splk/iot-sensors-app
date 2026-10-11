@@ -1,0 +1,94 @@
+### Wyniki wszystkich serii (domyślnie rosnąco, limit 1000)
+GET {{host}}/api/measurements
+Accept: application/json
+
+### Wyniki wybranych serii w domkniętym przedziale, malejąco
+GET {{host}}/api/measurements?series={{seriesId}}&from=2026-01-01T00:00:00Z&to=2026-12-31T23:59:59Z&sort=-timestamp&limit=100
+Accept: application/json
+
+### Niepoprawny from – 400
+GET {{host}}/api/measurements?from=nie-data
+Accept: application/json
+
+### Niepoprawny sort – 400
+GET {{host}}/api/measurements?sort=value
+Accept: application/json
+
+### limit poza 1..10000 – 400
+GET {{host}}/api/measurements?limit=0
+Accept: application/json
+
+### Przesłanie wyniku kluczem czujnika – 201 + Location; id zapisywane w {{measurementId}}
+POST {{host}}/api/measurements
+X-API-Key: {{apiKey}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "value": 21.5,
+  "timestamp": "2026-01-10T10:00:00Z"
+}
+
+> {%
+    client.global.set("measurementId", response.body.id);
+%}
+
+### Wynik bez timestamp – czas serwera
+POST {{host}}/api/measurements
+X-API-Key: {{apiKey}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "value": 22.0
+}
+
+### Wartość spoza przedziału serii – 422
+POST {{host}}/api/measurements
+X-API-Key: {{apiKey}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "value": 999
+}
+
+### Znacznik czasu z przyszłości – 422
+POST {{host}}/api/measurements
+X-API-Key: {{apiKey}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "value": 20,
+  "timestamp": "2099-01-01T00:00:00Z"
+}
+
+### Zły typ value – 400
+POST {{host}}/api/measurements
+X-API-Key: {{apiKey}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "value": "abc"
+}
+
+### Treść text/plain – 415
+POST {{host}}/api/measurements
+X-API-Key: {{apiKey}}
+Content-Type: text/plain
+
+value=1
+
+### Odczyt wyniku
+GET {{host}}/api/measurements/{{measurementId}}
+Accept: application/json
+
+### Nieistniejący wynik – 404
+GET {{host}}/api/measurements/999999999
+Accept: application/json
+
+### Wyników nie można usuwać – 405
+DELETE {{host}}/api/measurements/{{measurementId}}
+Authorization: Bearer {{token}}

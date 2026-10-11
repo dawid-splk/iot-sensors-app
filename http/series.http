@@ -1,0 +1,99 @@
+### Lista serii (publiczne)
+GET {{host}}/api/series
+Accept: application/json
+
+### Utworzenie serii – 201 + Location; id zapisywane w {{seriesId}}
+POST {{host}}/api/series
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Temperatura – salon",
+  "minValue": -10,
+  "maxValue": 40,
+  "color": "#1f77b4",
+  "icon": "circle",
+  "unit": "°C"
+}
+
+> {%
+    client.global.set("seriesId", response.body.id);
+%}
+
+### Odczyt serii
+GET {{host}}/api/series/{{seriesId}}
+Accept: application/json
+
+### Aktualizacja serii – 200
+PUT {{host}}/api/series/{{seriesId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Temperatura – salon",
+  "minValue": -15,
+  "maxValue": 45,
+  "color": "#ff7f0e",
+  "icon": "triangle",
+  "unit": "°C"
+}
+
+### Aktualizacja wykluczająca zapisane wyniki – 409 (gdy seria ma wyniki spoza [50, 60])
+PUT {{host}}/api/series/{{seriesId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Temperatura – salon",
+  "minValue": 50,
+  "maxValue": 60,
+  "color": "#1f77b4"
+}
+
+### min >= max – 422
+POST {{host}}/api/series
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Zły przedział",
+  "minValue": 10,
+  "maxValue": 10,
+  "color": "#1f77b4"
+}
+
+### Brak nazwy i zły kolor – 400 z errors[]
+POST {{host}}/api/series
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "minValue": 0,
+  "maxValue": 1,
+  "color": "red"
+}
+
+### Uszkodzony JSON – 400
+POST {{host}}/api/series
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{"name":
+
+### Accept: application/xml – 406
+GET {{host}}/api/series
+Accept: application/xml
+
+### Nieistniejąca seria – 404 (Problem Details)
+GET {{host}}/api/series/999999999
+Accept: application/json
+
+### Usunięcie serii – 204 (kasuje też czujniki i wyniki)
+DELETE {{host}}/api/series/{{seriesId}}
+Authorization: Bearer {{token}}
