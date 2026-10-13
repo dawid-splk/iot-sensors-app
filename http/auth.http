@@ -1,0 +1,64 @@
+### Logowanie – zapisuje token w zmiennej globalnej {{token}}
+POST {{host}}/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "{{username}}",
+  "password": "{{password}}"
+}
+
+> {%
+    client.global.set("token", response.body.accessToken);
+%}
+
+### Logowanie błędnym hasłem – 401
+POST {{host}}/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "{{username}}",
+  "password": "zle-haslo"
+}
+
+### Zmiana hasła z błędnym bieżącym hasłem – 403
+PUT {{host}}/api/auth/password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "currentPassword": "zle-haslo",
+  "newPassword": "NoweHaslo-123456"
+}
+
+### Zmiana hasła bez tokenu – 401
+PUT {{host}}/api/auth/password
+Content-Type: application/json
+Accept: application/json
+
+{
+  "currentPassword": "{{password}}",
+  "newPassword": "NoweHaslo-123456"
+}
+
+### Zmiana hasła – 204 (pamiętaj o przywróceniu poprzedniego hasła)
+PUT {{host}}/api/auth/password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "currentPassword": "{{password}}",
+  "newPassword": "NoweHaslo-123456"
+}
+
+### Wylogowanie – 204; potem token daje 401
+POST {{host}}/api/auth/logout
+Authorization: Bearer {{token}}
+
+### Użycie tokenu po wylogowaniu – 401
+GET {{host}}/api/sensors
+Authorization: Bearer {{token}}
+Accept: application/json

@@ -1,0 +1,64 @@
+### Rejestracja czujnika – 201 + Location; klucz zapisywany w {{apiKey}}, id w {{sensorId}}
+POST {{host}}/api/sensors
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Czujnik salon",
+  "seriesId": {{seriesId}}
+}
+
+> {%
+    client.global.set("apiKey", response.body.apiKey);
+    client.global.set("sensorId", response.body.id);
+%}
+
+### Lista czujników (bez kluczy)
+GET {{host}}/api/sensors
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Odczyt czujnika (bez klucza)
+GET {{host}}/api/sensors/{{sensorId}}
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Rejestracja dla nieistniejącej serii – 422
+POST {{host}}/api/sensors
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Czujnik widmo",
+  "seriesId": 999999999
+}
+
+### Lista czujników bez tokenu – 401
+GET {{host}}/api/sensors
+Accept: application/json
+
+### Wyrejestrowanie czujnika – 204; potem jego klucz daje 401, wyniki zostają
+DELETE {{host}}/api/sensors/{{sensorId}}
+Authorization: Bearer {{token}}
+
+### Wynik kluczem wyrejestrowanego czujnika – 401
+POST {{host}}/api/measurements
+X-API-Key: {{apiKey}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "value": 21.0
+}
+
+### Wynik z samym tokenem administratora – 401
+POST {{host}}/api/measurements
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "value": 21.0
+}
