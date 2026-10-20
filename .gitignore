@@ -27,3 +27,8 @@ replay_pid*
 .idea/
 
 http-client.private.env.json
+
+# Generator
+generator/.keys.json
+__pycache__/
+.venv/
