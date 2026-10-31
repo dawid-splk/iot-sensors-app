@@ -1,0 +1,11 @@
+.git
+.idea
+.env
+docs
+tests
+http
+generator
+frontend/node_modules
+frontend/dist
+backend/target
+**/*.log

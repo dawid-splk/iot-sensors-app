@@ -9,6 +9,7 @@ spring:
     open-in-view: false
   mvc.problemdetails.enabled: true
 server:
+  port: ${PORT:8080}
   forward-headers-strategy: framework
   error:
     include-stacktrace: never
