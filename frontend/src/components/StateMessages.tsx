@@ -13,6 +13,17 @@ export function LoadingState({label = 'Ładowanie danych…'}: { label?: string 
     )
 }
 
+export function ListLoadingState({label = 'Ładowanie listy…'}: { label?: string }) {
+    return (
+        <div role="status" aria-busy="true" className="space-y-2">
+            <span className="sr-only">{label}</span>
+            <Skeleton className="h-10 w-full"/>
+            <Skeleton className="h-10 w-full"/>
+            <Skeleton className="h-10 w-full"/>
+        </div>
+    )
+}
+
 export function ErrorState({message, onRetry}: { message: string; onRetry: () => void }) {
     return (
         <div role="alert" className="space-y-3 rounded-lg border border-destructive p-4">
