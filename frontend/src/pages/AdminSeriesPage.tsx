@@ -104,6 +104,7 @@ export function AdminSeriesPage() {
 
     return (
         <section className="space-y-6">
+            <title>Serie</title>
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <h1 id="page-title" tabIndex={-1} className="text-2xl font-semibold outline-none">Serie</h1>
                 {rows.length > 0 && (

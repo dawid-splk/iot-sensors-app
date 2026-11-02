@@ -60,12 +60,12 @@
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
     --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
+    --muted-foreground: oklch(0.5 0 0);
     --accent: oklch(0.97 0 0);
     --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
+    --destructive: oklch(0.505 0.213 27.518);
     --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
+    --input: oklch(0.62 0 0);
     --ring: oklch(0.45 0 0);
     --chart-1: oklch(0.87 0 0);
     --chart-2: oklch(0.556 0 0);
@@ -128,5 +128,56 @@
 
     html {
         @apply font-sans;
+    }
+}
+
+
+/*
+ * Unlayered on purpose: it must beat component utilities such as `outline-none`,
+ * whose translucent ring alone does not reach the 3:1 contrast required for focus indicators.
+ */
+:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 1px;
+}
+
+[role="dialog"]:focus-visible,
+[role="alertdialog"]:focus-visible {
+    outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media print {
+    body {
+        background: #fff;
+        color: #000;
+    }
+
+    [data-sonner-toaster] {
+        display: none !important;
+    }
+
+    [data-slot="table-container"] {
+        overflow: visible;
+    }
+
+    [data-slot="table-head"],
+    [data-slot="table-cell"] {
+        white-space: normal;
+        padding: 0.25rem 0.5rem;
+    }
+
+    [data-slot="table"] {
+        font-size: 0.8125rem;
     }
 }

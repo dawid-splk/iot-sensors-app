@@ -129,6 +129,7 @@ export function AdminSensorsPage() {
 
     return (
         <section className="space-y-6">
+            <title>Czujniki</title>
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <h1 id="page-title" tabIndex={-1} className="text-2xl font-semibold outline-none">Czujniki</h1>
                 {hasSensors && (

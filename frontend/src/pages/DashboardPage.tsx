@@ -140,6 +140,7 @@ export function DashboardPage() {
 
     return (
         <section>
+            <title>Pulpit</title>
             <h1 className="text-2xl font-semibold">Pulpit</h1>
 
             <div className="mt-6 grid gap-6 lg:grid-cols-[280px_1fr] print:block">

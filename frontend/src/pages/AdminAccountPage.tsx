@@ -66,6 +66,7 @@ export function AdminAccountPage() {
 
     return (
         <section className="mx-auto w-full max-w-md">
+            <title>Konto</title>
             <h1 id="page-title" tabIndex={-1} className="text-2xl font-semibold outline-none">Konto</h1>
 
             <h2 className="mt-6 text-lg font-semibold">Zmiana hasła</h2>

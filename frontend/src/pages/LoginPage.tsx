@@ -54,6 +54,7 @@ export function LoginPage() {
 
     return (
         <section className="mx-auto w-full max-w-sm">
+            <title>Logowanie</title>
             <h1 className="text-2xl font-semibold">Logowanie administratora</h1>
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-6 space-y-4">

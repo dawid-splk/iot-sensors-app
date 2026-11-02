@@ -15,6 +15,7 @@ import 'chartjs-adapter-date-fns'
 import {pl} from 'date-fns/locale/pl'
 import {Line} from 'react-chartjs-2'
 import type {Measurement} from '@/api/types'
+import {SeriesSwatch} from '@/components/SeriesSwatch'
 import type {StyledSeries} from '@/lib/series-style'
 
 ChartJS.register(LineController, LineElement, PointElement, LinearScale, TimeScale, Tooltip, Legend)
@@ -109,7 +110,8 @@ function buildOptions(units: string[]): ChartOptions<'line'> {
         interaction: {mode: 'nearest', intersect: true},
         scales,
         plugins: {
-            legend: {position: 'bottom', labels: {usePointStyle: true}},
+            // Replaced by an HTML legend below: Chart.js draws either the marker or the dash, never both.
+            legend: {display: false},
         },
     }
 }
@@ -165,6 +167,14 @@ export function ChartPanel({series, measurements, highlightedId}: ChartPanelProp
             <div className="relative h-[360px] w-full sm:h-[420px] print:h-[320px]">
                 <Line ref={chartRef} data={data} options={options} aria-hidden="true"/>
             </div>
+            <ul aria-hidden="true" className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+                {series.map((item) => (
+                    <li key={item.series.id} className="flex items-center gap-2">
+                        <SeriesSwatch color={item.color} pointStyle={item.pointStyle} borderDash={item.borderDash}/>
+                        {item.label}
+                    </li>
+                ))}
+            </ul>
             <figcaption className="mt-3 text-sm text-muted-foreground">
                 Wykres wartości w czasie dla serii: {seriesNames}. Te same dane znajdują się w tabeli poniżej.
             </figcaption>

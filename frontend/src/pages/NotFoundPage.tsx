@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 export function NotFoundPage() {
     return (
         <section>
+            <title>Nie znaleziono strony</title>
             <h1 className="text-2xl font-semibold">Nie znaleziono strony</h1>
             <p className="mt-2 text-muted-foreground">Strona, której szukasz, nie istnieje.</p>
             <p className="mt-4 print:hidden">
